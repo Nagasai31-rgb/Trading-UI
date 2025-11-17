@@ -11,12 +11,10 @@ pipeline {
         stage('Install npm prerequisites') {
             steps {
                 sh 'npm install'
-                sh 'unset CI'
-                sh 'npm run build'
+                sh 'CI=false npm run build'
                 sh 'pm2 delete Trading-UI || true'
                 sh 'pm2 start npm --name "Trading-UI" -- start'
             }
         }
     }
 }
-
