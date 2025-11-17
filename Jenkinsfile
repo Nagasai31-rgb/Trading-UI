@@ -2,18 +2,19 @@ pipeline {
     agent any
 
     stages {
+
         stage('Git checkout') {
             steps {
                 git 'https://github.com/betawins/Trading-UI.git'
             }
         }
 
-        stage('Install npm prerequisites'){
-            steps{
-                sh 'npm audit fix'
+        stage('Install npm prerequisites') {
+            steps {
                 sh 'npm install'
                 sh 'npm run build'
-                sh 'cd build && pm2 --name Trading-UI start npm -- start'
+                sh 'pm2 delete Trading-UI || true'
+                sh 'pm2 start npm --name "Trading-UI" -- start'
             }
         }
     }
